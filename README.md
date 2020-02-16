@@ -1,4 +1,5 @@
 <img height=200 src="./images/lolwut.jpg" />
+
 # lintlolwut
 
 Find which Go file golangci-lint is complaining about.
@@ -16,7 +17,11 @@ I am left to wonder, what file is it even complaining about?
 This little wrapper automates a tedious process I was performing manually. It will  find all the go files in the current directory, optionally match only a subset of them, and run `golangci-lint run` on each file individually. Any that report failures will be called out by name, in addition to any other output.
 
 I hope they improve the feedback to the point that this becomes obsolete.
+## Installation
 
+```
+go get -u github.com/StevenACoffman/lintlolwut
+```
 ## Usage
 
 ```
@@ -26,6 +31,10 @@ Usage of lintlolwut:
   -t	include test .go files
   -tags build tags
     	a list of build tags to consider satisfied during the build. For more information about build tags, see the description of build constraints in the documentation for the go/build package
+```
+For example:
+```
+lintlolwut -match=mycoolthing
 ```
 
 ### Image Credit
