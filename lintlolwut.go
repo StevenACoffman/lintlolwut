@@ -66,7 +66,7 @@ func main() {
 					outString := out.String()
 					errString := errout.String()
 					fmt.Printf("Lint failed for %v\n", filePath)
-					if *name {
+					if !*name {
 						if outString != "" {
 							fmt.Println(outString)
 						}
