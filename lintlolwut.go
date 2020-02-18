@@ -16,6 +16,7 @@ import (
 	"golang.org/x/tools/go/buildutil"
 )
 
+var fix = flag.Bool("f", true, "pass --fix arg to golangci-lint")
 var test = flag.Bool("t", false, "include test .go files")
 var name = flag.Bool("n", false, "only show failing file names")
 var match = flag.String("match", "", "filepath to exact match")
@@ -55,7 +56,12 @@ func main() {
 	}
 	wg.Wait()
 	for _, filePath := range goFiles {
-		cmd := exec.Command("golangci-lint", "run", filePath)
+		var cmd *exec.Cmd
+		if *fix {
+			cmd = exec.Command("golangci-lint", "run", "--fix", filePath)
+		} else {
+			cmd = exec.Command("golangci-lint", "run", filePath)
+		}
 		var errout bytes.Buffer
 		cmd.Stderr = &errout
 		var out bytes.Buffer
