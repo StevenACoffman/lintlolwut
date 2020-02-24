@@ -19,7 +19,15 @@ import (
 var fix = flag.Bool("f", true, "pass --fix arg to golangci-lint")
 var test = flag.Bool("t", false, "include test .go files")
 var name = flag.Bool("n", false, "only show failing file names")
+var versionFlag = flag.Bool("v", false, "show version")
 var match = flag.String("match", "", "filepath to exact match")
+
+var (
+	// Populated by goreleaser during build
+	version = "master"
+	commit  = "?"
+	date    = ""
+)
 
 func init() {
 	flag.Var((*buildutil.TagsFlag)(&build.Default.BuildTags), "tags", buildutil.TagsFlagDoc)
@@ -31,6 +39,11 @@ func main() {
 	dirs := flag.Args()
 	if len(dirs) == 0 {
 		dirs = []string{"."}
+	}
+
+	if *versionFlag {
+		fmt.Printf("lintlolwut has version %s built from %s on %s\n", version, commit, date)
+		os.Exit(0)
 	}
 
 	var wg sync.WaitGroup
@@ -84,7 +97,6 @@ func main() {
 			}
 		}
 	}
-
 }
 
 var outputMu sync.Mutex
